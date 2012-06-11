@@ -1,0 +1,25 @@
+# clang usage
+clang -O3 -emit-llvm hello.c -S -o hello.ll
+clang -O3 -emit-llvm hello.c -c -o hello.bc
+lli hello.bc
+clang hello.c -o hello.exe
+./hello.exe
+
+# mount windows partition
+sudo mount -t ntfs /dev/sda2 /mnt/C -o iocharset=utf8,umask=022
+sudo mount -t ntfs /dev/sda3 /mnt/D -o iocharset=utf8,umask=022
+sudo mount -t ntfs /dev/sda3 /mnt/E -o iocharset=utf8,umask=022
+sudo mount -t ntfs /dev/sda3 /mnt/F -o iocharset=utf8,umask=022
+
+# analyze IR code and generate graphs
+opt -simpleargpromotion in.ll -S -o out.ll
+opt -dot-cfg in.ll
+opt -view-cfg in.ll
+
+opt -basicaa method_para_int_branch.ll
+opt method_para_int_branch.ll -S -print-callgraph 2>output_file >/dev/null
+
+
+dot -Tsvg in.dot -o out.svg 
+dot -Tpng in.dot -o out.png 
+dot -Tps filename.dot -o outfile.ps

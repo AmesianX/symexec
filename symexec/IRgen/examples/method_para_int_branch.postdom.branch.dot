@@ -1,0 +1,21 @@
+digraph "Post dominator tree for 'branch' function" {
+	label="Post dominator tree for 'branch' function";
+
+	Node0x27cfa20 [shape=record,label="{%18:\l\l  ret i32 0\l}"];
+	Node0x27cfa20 -> Node0x27cf980;
+	Node0x27cfa20 -> Node0x27d8ca0;
+	Node0x27cfa20 -> Node0x27d8d50;
+	Node0x27cf980 [shape=record,label="{%17:\l\l  br label %18\l}"];
+	Node0x27cf980 -> Node0x27d5ac0;
+	Node0x27cf980 -> Node0x27d8c60;
+	Node0x27cf980 -> Node0x27d8ce0;
+	Node0x27d5ac0 [shape=record,label="{%16:\l\l  br label %17\l}"];
+	Node0x27d5ac0 -> Node0x27d3fa0;
+	Node0x27d5ac0 -> Node0x27d3f30;
+	Node0x27d3fa0 [shape=record,label="{%14:\l\l  %15 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([10 x i8]* @.str2, i32 0, i32 0))\l  br label %16\l}"];
+	Node0x27d3f30 [shape=record,label="{%11:\l\l  %12 = load i32* %1, align 4\l  %13 = icmp slt i32 %12, 0\l  br i1 %13, label %14, label %16\l}"];
+	Node0x27d8c60 [shape=record,label="{%6:\l\l  %7 = load i32* %1, align 4\l  %8 = icmp eq i32 %7, 0\l  br i1 %8, label %9, label %11\l}"];
+	Node0x27d8ce0 [shape=record,label="{%9:\l\l  %10 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([6 x i8]* @.str1, i32 0, i32 0))\l  br label %17\l}"];
+	Node0x27d8ca0 [shape=record,label="{%0:\l  %1 = alloca i32, align 4\l  store i32 %n, i32* %1, align 4\l  %2 = load i32* %1, align 4\l  %3 = icmp sgt i32 %2, 0\l  br i1 %3, label %4, label %6\l}"];
+	Node0x27d8d50 [shape=record,label="{%4:\l\l  %5 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([10 x i8]* @.str, i32 0, i32 0))\l  br label %18\l}"];
+}

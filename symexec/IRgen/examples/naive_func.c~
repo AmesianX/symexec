@@ -1,0 +1,7 @@
+int func (int i) {
+    i++;
+    i+18;
+    assert(i>0);
+    return i;
+}
+
