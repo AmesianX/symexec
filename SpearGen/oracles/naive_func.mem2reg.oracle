@@ -1,0 +1,6 @@
+# Pass SpearGen: 
+# Should print the IR file's name here.
+v 1.0
+d tmp:i32 
+c tmp + 0:i32 1:i32 
+p = tmp 0:i32 

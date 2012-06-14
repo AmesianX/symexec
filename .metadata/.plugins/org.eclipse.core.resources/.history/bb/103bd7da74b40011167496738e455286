@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/pass_vars.sh
+
+cd $TRANS_DIR${MY_PASS}
+
+TARGET=naive_func.mem2reg
+./run.sh ${TARGET} | diff - oracles/${TARGET}.oracle
+echo "#############################"
+./run.sh hello
+echo "#############################"
+./run.sh mul_add.mem2reg.instnamer
+echo "#############################"

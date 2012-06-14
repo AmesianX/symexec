@@ -1,0 +1,18 @@
+# gedit /home/tao/Projects/Transforms/symexec/passes/scripts
+
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/env_vars.sh
+
+MYPASS=${1:-NullPass}
+MYOPT=${2:-null_pass}
+
+mkdir $trans_dir${MYPASS}/
+cd $trans_dir${MYPASS}/
+
+sed 's/${MyPass}/'"$MyPass"'/g' ../Templates/Template.cpp | sed 's/${MyOpt}/'"$MyOpt"'/g' > $MyPass.cpp
+sed 's/${MyPass}/'"$MyPass"'/g' ../Templates/Makefile | sed 's/${MyOpt}/'"$MyOpt"'/g' > Makefile
+sed 's/${MyPass}/'"$MyPass"'/g' ../Templates/pass_vars.sh | sed 's/${MyOpt}/'"$MyOpt"'/g' > pass_vars.sh

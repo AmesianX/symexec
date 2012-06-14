@@ -1,0 +1,13 @@
+#include "gtest/gtest.h"
+
+
+double square-root (const double);
+
+TEST(SquareRootTest, PositiveNos) {
+	EXPECT_EQ(0, tSpearGen.IR_map_Spear(Instruction::Add));
+}
+
+int main(int argc, char **argv) {
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+}

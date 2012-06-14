@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+# These variables are 
+
+OPT=/home/tao/Downloads/llvm-3.1/build/Debug+Asserts/bin/opt
+LIB_DIR=/home/tao/Downloads/llvm-3.1/llvm/Debug+Asserts/lib/
+TRANS_DIR=/home/tao/Projects/Transforms/
+SO_FILE=${lib_dir}LLVM${MyPass}.so
+EXAMPLE_DIR=/home/tao/Projects/Transforms/symexec/IRgen/examples/
+
+MY_PASS=SpearGen
+MY_OPT=spear-gen

@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/pass_vars.sh
+
+cd $TRANS_DIR${MY_PASS}
+
+TEST_TARGETS=(
+		"hello" \
+		"naive_func.mem2reg" \
+		"mul_add.mem2reg.instnamer" \
+		"last_fermat_4.mem2reg.instnamer" \
+		"common_subexpression" \
+)
+
+COUNT=0					# Initialise a counter
+for TARGET in ${TEST_TARGETS[@]};do
+    COUNT=`expr $count + 1`		# Increment the counter
+	echo "############# TEST NO.$COUNT: $TARGET. BEGIN...################"
+	#./run.sh ${TARGET} 2>&1 | diff -s - oracles/${TARGET}.oracle
+	echo -e "############# TEST NO.$COUNT: $TARGET.END...##################"
+done
+
+# Below is used to generate test oracle.
+# ./run.sh ${TARGET} 2>&1 | tee oracles/${TARGET}.oracle

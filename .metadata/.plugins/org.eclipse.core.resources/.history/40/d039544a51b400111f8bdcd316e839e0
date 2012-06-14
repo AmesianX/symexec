@@ -1,0 +1,39 @@
+# gedit /home/tao/Projects/Transforms/symexec/passes/scripts
+
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/env_vars.sh
+
+
+MYPASS=${1:-NullPass}
+MYOPT=${2:-null_pass}
+
+
+mkdir $trans_dir${MyPass}/
+cd $trans_dir${MyPass}/
+
+sed 's/${MyPass}/'"$MyPass"'/g' ../Templates/Template.cpp | sed 's/${MyOpt}/'"$MyOpt"'/g' > $MyPass.cpp
+sed 's/${MyPass}/'"$MyPass"'/g' ../Templates/Makefile | sed 's/${MyOpt}/'"$MyOpt"'/g' > Makefile
+
+
+# Please write the code as Hello.cpp template, change the Makefile's LIBRARYNAME
+gedit ${MyPass}.cpp Makefile &
+vim ${MyPass}.cpp
+
+make
+ 
+# Remove alloca, load, and store.
+$opt naive_func.ll -S -gvn -die -dse -lint -argpromotion -licm -mem2reg # Maybe *-mem2reg* is the exact one. Yet *-scalarrepl* seems also work because it invoke *-mem2reg* in the second stage.
+$opt naive_main.ll -S -mem2reg > naive_main.mem2reg.ll
+
+$opt -load $so_file  -help | grep $MyOpt
+cd $example_dir
+$opt -load $so_file -$MyOpt $example_dir/method_para_int_branch.ll -S >/dev/null #-time-passes
+$opt -load $so_file -$MyOpt $example_dir/naive_main.mem2reg.ll -S >/dev/null #-time-passes
+
+# Remove alloca, load, and store.
+$opt naive_func.ll -S -gvn -die -dse -lint -argpromotion -licm -mem2reg # Maybe *-mem2reg* is the exact one. Yet *-scalarrepl* seems also work because it invoke *-mem2reg* in the second stage.
+$opt naive_main.ll -S -mem2reg -instnamer | tee naive_main.mem2reg.ll

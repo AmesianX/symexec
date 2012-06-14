@@ -1,0 +1,6 @@
+
+int last_fermat_4(int &a) {
+	int c = a*a;
+
+}
+

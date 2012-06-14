@@ -23,3 +23,8 @@ opt method_para_int_branch.ll -S -print-callgraph 2>output_file >/dev/null
 dot -Tsvg in.dot -o out.svg 
 dot -Tpng in.dot -o out.png 
 dot -Tps filename.dot -o outfile.ps
+
+
+TARGET=${1:-last_fermat_4}
+clang -emit-llvm -S -o- ${TARGET}.c | opt -S -mem2reg -instnamer | tee ${TARGET}.ll
+

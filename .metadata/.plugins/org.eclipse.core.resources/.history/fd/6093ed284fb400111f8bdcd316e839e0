@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+source ../symexec/env_vars.sh
+
+MY_PASS=SpearGen
+MY_OPT=spear-gen
+SO_FILE=${lib_dir}LLVM${MyPass}.so

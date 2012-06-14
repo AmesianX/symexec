@@ -1,0 +1,9 @@
+#
+
+opt=/home/tao/Downloads/llvm-3.1/build/Debug+Asserts/bin/opt
+MyPass=SpearGen
+MyOpt=spear-gen
+lib_dir=/home/tao/Downloads/llvm-3.1/llvm/Debug+Asserts/lib/
+trans_dir=/home/tao/Projects/Transforms/
+so_file=${lib_dir}LLVM${MyPass}.so
+example_dir=/home/tao/Projects/Transforms/symexec/IRgen/examples/

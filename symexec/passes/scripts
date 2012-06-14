@@ -1,12 +1,12 @@
-# gedit ~/Projects/symexec/passes/scripts
+# gedit /home/tao/Projects/Transforms/symexec/passes/scripts
 
-opt=/home/tao/Downloads/llvm-3.1/build/Debug+Asserts/bin/opt
-MyPass=MaximallySharedGraph
-MyOpt=maximally-shared-graph
+OPT=/home/tao/Downloads/llvm-3.1/build/Debug+Asserts/bin/opt
+MYPASS=SpearGen
+MYOPT=spear-gen
 lib_dir=/home/tao/Downloads/llvm-3.1/llvm/Debug+Asserts/lib/
-trans_dir=/home/tao/Downloads/llvm-3.1/llvm/lib/Transforms/
+trans_dir=/home/tao/Projects/Transforms/
 so_file=${lib_dir}LLVM${MyPass}.so
-example_dir=/home/tao/Projects/symexec/IRgen/examples/
+example_dir=/home/tao/Projects/Transforms/symexec/IRgen/examples/
 
 mkdir $trans_dir${MyPass}/
 cd $trans_dir${MyPass}/
@@ -20,7 +20,13 @@ gedit ${MyPass}.cpp Makefile &
 vim ${MyPass}.cpp
 
 make
- 
+
+
+# The overall init script.
+./symexec/passes/init.sh TestInit test_init
+
+
+
 # Remove alloca, load, and store.
 $opt naive_func.ll -S -gvn -die -dse -lint -argpromotion -licm -mem2reg # Maybe *-mem2reg* is the exact one. Yet *-scalarrepl* seems also work because it invoke *-mem2reg* in the second stage.
 $opt naive_main.ll -S -mem2reg > naive_main.mem2reg.ll
@@ -32,4 +38,4 @@ $opt -load $so_file -$MyOpt $example_dir/naive_main.mem2reg.ll -S >/dev/null #-t
 
 # Remove alloca, load, and store.
 $opt naive_func.ll -S -gvn -die -dse -lint -argpromotion -licm -mem2reg # Maybe *-mem2reg* is the exact one. Yet *-scalarrepl* seems also work because it invoke *-mem2reg* in the second stage.
-$opt naive_main.ll -S -mem2reg -instnamer > naive_main.mem2reg.ll
+$opt naive_main.ll -S -mem2reg -instnamer | tee naive_main.mem2reg.ll

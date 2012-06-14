@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/pass_vars.sh
+
+TARGET=${1:-naive_main.mem2reg}
+
+$OPT -load $so_file -$MyOpt $example_dir/{TARGET}.ll -S >/dev/null #-time-passes

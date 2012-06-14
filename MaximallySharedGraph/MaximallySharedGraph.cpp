@@ -7,6 +7,7 @@
 #include "llvm/Type.h"
 #include "llvm/DerivedTypes.h"
 #include "llvm/Constants.h"
+#include "llvm/Instruction.h"
 
 #include <sstream>
 #include <string>
@@ -33,29 +34,37 @@ struct MaximallySharedGraph: public FunctionPass {
 
 	// Postorder traverse of a tree
 	void print_inst_spear(Instruction& inst) {
+
+		// Print the operands' definitions fist and recursively.
 		for (User::op_iterator i = inst.op_begin(), e = inst.op_end(); i != e;
 				++i) {
 			if (Instruction * sub_inst = dyn_cast<Instruction>(*i)) {
 				print_inst_spear (*sub_inst);
 			}
 		}
-		if(inst.getType()->getTypeID() == Type::IntegerTyID)
-			errs() << "<i" << inst.getType()->getIntegerBitWidth() << "> ";
-		if(inst.hasName())
-			errs() << inst.getName() << " || ";
-        errs() << inst.getOpcodeName();
 
+		if(inst.getOpcode() == Instruction::Ret) return;
+
+		errs() << "c ";
+
+		// Print the return variable's name.
+		if (inst.hasName())
+			errs() << inst.getName() << " ";
+
+		// Print the operator's name.
+		IR_map_Spear(inst.getOpcode());
+
+		// Print each operand: a variable name or a constant with type.
 		for (User::op_iterator i = inst.op_begin(), e = inst.op_end(); i != e;
 				++i) {
 			Value *v = *i;
 
-			errs() << " || ";
-			if(v->getType()->getTypeID() == Type::IntegerTyID)
-				errs() << "<i" << v->getType()->getIntegerBitWidth() << "> ";
-			if(v->hasName())
-				errs() << v->getName() << " || ";
-			else if(v->getValueID() == Value::ConstantIntVal)
-				errs() << cast<ConstantInt>(v)->getValue()<< "||";
+			if (v->hasName())
+				errs() << v->getName();
+
+			if (v->getValueID() == Value::ConstantIntVal)
+				errs() << cast<ConstantInt>(v)->getValue() << ":i"
+						<< inst.getType()->getIntegerBitWidth() << " ";
 
 		}
 		errs() << "\n";
@@ -69,34 +78,38 @@ struct MaximallySharedGraph: public FunctionPass {
 				print_variables_spear (*sub_inst);
 			}
 		}
-		errs() << "<" << inst.getType()->getTypeID()  << inst.getType()->getIntegerBitWidth() << "> ";
-		errs() << inst << " || ";
-        errs() << inst.getOpcodeName();
 
-		for (User::op_iterator i = inst.op_begin(), e = inst.op_end(); i != e;
-				++i) {
-			Value *v = *i;
-			errs() << " || " << "<" <<  v->getType()->getTypeID() << "> ";
-			errs() << *v;
+		if (inst.hasName()) {
+			errs() <<inst.getName();
+			if (inst.getType()->getTypeID() == Type::IntegerTyID)
+				errs() << ":i" << inst.getType()->getIntegerBitWidth()
+						<< " ";
 		}
-		errs() << "\n";
+		errs() << " ";
 	}
 
-	void print_spear() {
-		errs() << "# Should print the IR code's name here." << "\n";
+	void print_spear(Instruction& retI) {
+		errs() << "# Should print the IR file's name here." << "\n";
 		errs() << "v 1.0" << "\n";
-		errs() << "d # Should print variable declarations here." << "\n";
+		errs() << "d ";
+		print_variables_spear(retI);
+		errs() << " # Variable declarations" << "\n";
+		print_inst_spear(retI);
+		errs() << "p = tmp 0:i32" << "\n";
 
-		errs() << "p = ret 0:i32" << "\n";
+	}
 
+
+	void IR_map_Spear(unsigned Opcode){
+		switch (Opcode){
+		case  Instruction::Add : errs() << "+"; break;
+		}
 	}
 
 	virtual bool runOnFunction(Function &F) {
 		errs() << "MaximallySharedGraph: \n";
 		Instruction& retI = findRet(F);
-		//print_graph(retI);
-		print_inst_spear(retI);
-		//print_variables_spear(retI);
+		print_spear(retI);
 
 		return false;
 	}

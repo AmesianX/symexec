@@ -1,0 +1,7 @@
+
+int sum_square(int &a) {
+	int c = a*a;
+	int c = b+b;
+
+}
+

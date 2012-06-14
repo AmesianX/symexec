@@ -5,13 +5,13 @@
 using namespace llvm;
 
 namespace {
-  struct ${MyPass} : public FunctionPass {
+  struct ${MY_OPT} : public FunctionPass {
     
     static char ID;
-    ${MyPass}() : FunctionPass(ID) {}
+    ${MY_PASS}() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
-      errs() << "${MyPass}: ";
+      errs() << "# Pass ${MY_PASS}: ";
       errs().write_escaped(F.getName()) << '\n';
       return false;
     }
@@ -19,5 +19,5 @@ namespace {
   };
 }
   
-char ${MyPass}::ID = 0;
-static RegisterPass<${MyPass}> X("${MyOpt}", "${MyPass} World Pass", false, false);
+char ${MY_PASS}::ID = 0;
+static RegisterPass<${MY_PASS}> X("${MY_OPT}", "${MY_PASS} World Pass", false, false);

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;MaximallySharedGraph/Spear_code_map&apos; to &apos;IR2Spear.cpp&apos;" description="Rename resource &apos;Spear_code_map&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Spear_code_map" name="IR2Spear.cpp" stamp="1339425014434" updateReferences="true"/>
+</session>

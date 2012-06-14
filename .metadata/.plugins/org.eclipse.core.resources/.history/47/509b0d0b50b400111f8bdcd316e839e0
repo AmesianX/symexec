@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+# DIR_PATH is used to locate the script's path.
+DIR_PATH=`dirname $0`
+
+# Include the environment variables
+source $DIR_PATH/../symexec/passes/env_vars.sh
+
+MY_PASS=SpearGen
+MY_OPT=spear-gen
+SO_FILE=${LIB_DIR}LLVM${MYPASS}.so
+
+echo $SO_FILE

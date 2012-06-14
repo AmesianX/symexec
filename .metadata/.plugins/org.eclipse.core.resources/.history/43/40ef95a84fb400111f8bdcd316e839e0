@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+source ../symexec/passes/env_vars.sh
+
+DIR_PATH=`dirname $0`
+
+
+MY_PASS=SpearGen
+MY_OPT=spear-gen
+SO_FILE=${LIB_DIR}LLVM${MYPASS}.so
+
+echo $SO_FILE
